@@ -9,7 +9,7 @@
     margin-right: 50px;
 }
 h1 {
-	font-family: "Bookman Header";
+	font-family: "Palatino";
 	font-size: 50px;
 	color: #0b0f3a;
 	font-weight: 700;
@@ -37,11 +37,12 @@ h1 {
 
 p {
 	font-size: 17px;
-	font-family: "Bookman";
+	font-family: "Palatino";
 }
 
 h5 {
 	font-size: 22px;
+	font-family: "Helvetica";
 }
 
 .end {
@@ -55,8 +56,12 @@ blockquote {
 	font-size: 25px;
 	color: #0b0f3a;
 	font-weight: 700;
+	font-family: "Helvetica";
 }
-
+.lead {
+	font-family: "Helvetica";
+	font-size: 25px;
+}
 
 .bg-primary {
   background-color: #0b0f3a !important;
