@@ -88,7 +88,9 @@ Highcharts.chart('container', {
     colors: ['#990000'],
     chart: {
         type: 'column',
-        
+        plotBackgroundColor: '#dae4e9',
+        plotBorderWidth: 0,
+        plotShadow: false,
         
     },
     title: {
