@@ -9,7 +9,7 @@
     margin-right: 50px;
 }
 h1 {
-	font-family: "Palatino";
+	font-family: "Helvetica";
 	font-size: 50px;
 	color: #0b0f3a;
 	font-weight: 700;
@@ -60,7 +60,7 @@ blockquote {
 }
 .lead {
 	font-family: "Helvetica";
-	font-size: 25px;
+	font-size: 20px;
 }
 
 .bg-primary {
