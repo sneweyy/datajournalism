@@ -87,7 +87,7 @@ Highcharts.chart('pie', {
 Highcharts.chart('container', {
     colors: ['#990000'],
     chart: {
-        type: 'column'
+        type: 'column',
         
         
     },
