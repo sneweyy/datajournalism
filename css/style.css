@@ -12,6 +12,7 @@ h1 {
 	color: #000000;
 	font-family: "Helvetica Neue";
 	font-weight: normal;
+	font-size: 30px;
 }
 
 .hidden {
@@ -35,11 +36,11 @@ h1 {
 }
 
 p {
-	font-size: 14px;
+	font-size: 17px;
 }
 
 h5 {
-	font-size: 17px;
+	font-size: 22px;
 }
 
 .end {
@@ -57,7 +58,8 @@ blockquote {
 
 }
 h1 {
-color: #0b0f3a
+	color: #0b0f3a;
+	font-size: 40px;
 }
 
 .bg-primary {
