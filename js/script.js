@@ -1,4 +1,4 @@
-$function message() {
+function message() {
   var whichParty = document.getElementById("party");
   var party = whichParty.options[whichParty.selectedIndex].value;
   
