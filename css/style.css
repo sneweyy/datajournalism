@@ -51,15 +51,16 @@ h5 {
 }
 
 blockquote {
-	font-size: 30px;
+	font-size: 25px;
 	color: #0b0f3a;
-	font-weight: 700
+	font-weight: 700;
 
 
 }
 h1 {
 	color: #0b0f3a;
 	font-size: 40px;
+	font-weight: 700;
 }
 
 .bg-primary {
