@@ -1,0 +1,189 @@
+#PACKAGES
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(scales)
+install.packages('rvest')
+library(rvest)
+
+#This is the template for scraping tables. I repeated this for the different council websites with tables on 
+#I did this individually as I needed to have the photos of the councillors there to check manually if they were male or female
+#Couln't do this with a programme easily as so many gender neutral names, or names I didn't immeditately recognise 
+#Therefore easier to scrape each website, then identify if councillors were m/f, then move on to next website
+
+read_url <- "http://democracy.brent.gov.uk/mgMemberIndex.aspx?FN=WARD&VW=TABLE&PIC=1"
+new <- read_url %>%
+  read_html() %>%
+  html_nodes(xpath='///*[@id="mgTable1"]') %>%
+  html_table()
+new <- new[[1]]
+
+View(new)
+
+write.csv(new, "Brent")
+
+
+#This is the code for the non table annoying websites!!
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(scales)
+install.packages('rvest')
+library(rvest)
+
+#Bexley Council
+url <- 'http://democracy.bexley.gov.uk/mgMemberIndex.aspx?bcr=1'
+councillor <- url %>%
+  read_html() %>%
+  html_node(xpath = '/html/body/div[1]/div/div/section/div/div/div/div[2]/div[3]/div/ul') %>%
+  html_nodes('li a') %>% 
+  html_text()
+
+table <- data.frame(matrix(unlist(councillor), nrow=62, byrow=T))
+
+other <- url %>%
+  read_html() %>%
+  html_node(xpath = '/html/body/div[1]/div/div/section/div/div/div/div[2]/div[3]/div/ul') %>%
+  html_nodes('p:nth-of-type(2)') %>% 
+  html_text()
+
+newtable <- data.frame(matrix(unlist(other), nrow=62, byrow=T))
+newtable$new_column <- table
+
+write.csv(newtable, "Bexley")
+
+#Tower Hamlets
+
+url <- 'https://democracy.towerhamlets.gov.uk/mgMemberIndex.aspx?bcr=1'
+th <- url %>%
+  read_html() %>%
+  html_node(xpath = '/html/body/div[1]/div/div[3]/div/div[2]/div[2]/div[1]/div/div[3]/div[2]/ul') %>%
+  html_nodes("li a") %>%
+  html_text() %>%
+  View()
+
+th <- data.frame(matrix(unlist(councillor), nrow=47, byrow=T)) 
+
+tho <- read_html('https://democracy.towerhamlets.gov.uk/mgMemberIndex.aspx?bcr=1') %>%
+  html_nodes("p:nth-of-type(2)") %>%
+  html_text() %>%
+  View()
+
+tho <- data.frame(matrix(unlist(councillor), nrow=47, byrow=T))
+
+tho$new_column <- th
+
+write.csv(tho, "Tower Hamlets")
+
+
+#Lewisham
+
+lewisham <- read_html('http://councilmeetings.lewisham.gov.uk/mgMemberIndex.aspx?VW=TABLE&PIC=1&FN=ALPHA') %>%
+  html_nodes("table.mgStatsTable:nth-of-type(2) p:nth-of-type(1) a") %>%
+  html_text() %>%
+  View()
+
+lewishamtable <- data.frame(matrix(unlist(lewisham), nrow=54, byrow=T)) 
+  View()
+
+partytable <- read_html('http://councilmeetings.lewisham.gov.uk/mgMemberIndex.aspx?VW=TABLE&PIC=1&FN=ALPHA') %>%
+  html_nodes("table.mgStatsTable:nth-of-type(2) td:nth-of-type(3)") %>%
+  html_text() %>%
+  View()
+
+party <- data.frame(matrix(unlist(party), nrow=54, byrow=T)) 
+  View()   
+
+lewishamtable$new_column <- partytable 
+write.csv(lewishamtable, "Lewisham")
+
+#Newham
+
+newham <- read_html('https://mgov.newham.gov.uk/mgMemberIndex.aspx?bcr=1') %>%
+  html_nodes("div.mgThumbsList a") %>%
+  html_text() %>%
+  View()
+
+newhamtable <- data.frame(matrix(unlist(newham), nrow=60, byrow=T)) 
+
+
+party <- read_html('https://mgov.newham.gov.uk/mgMemberIndex.aspx?bcr=1') %>%
+  html_nodes("div.mgThumbsList p:nth-of-type(2)") %>%
+  html_text() %>%
+  View()
+
+partytable <- data.frame(matrix(unlist(party), nrow=60, byrow=T)) 
+  
+newhamtable$new_column <- partytable 
+write.csv(lewishamtable, "Lewisham")
+
+
+#Starting to Visualise! - this is for the councils v percentage of women v overall party control of Council
+
+library(readr)
+library(dplyr)
+library(ggplot2)
+
+
+data <- read_csv("/Users/sarahnewey/Documents/City/Data J/CODING/Make up of local councils/CSV/partycontrol.csv")
+data %>% View()
+
+data$COUNCIL <- factor(data$COUNCIL,levels = c('Lambeth','Southwark','Haringey', 'Islington','Camden','Hackney', 'Barking and Dagenham','Brent', 'Wandsworth', 'Richmond upon Thames', 'Enfield', 'Kensington and Chelsea','Merton', 'Newham', 'Barnet', 'Harrow', 'Hammersmith and Fulham', 'Lewisham', 'Sutton', 'City of Westminster', 'Greenwich', 'Croyden', 'Bromley', 'Waltham', 'Kingston upon Thames', 'Hounslow', 'Bexley', 'Ealing', 'Hillingdon', 'Redbridge', 'Tower Hamlets', 'Havering'))
+
+ggplot(data, aes(x = COUNCIL, y = PERCENT, fill = PARTY)) +
+  geom_bar(stat = 'identity', width=.7) +
+  theme_economist() +
+  labs(title="Percentage of female councillors in London Boroughs", 
+       subtitle="As of April 2018", 
+       caption="source: Sarah Newey") + 
+  theme(axis.text.x = element_text(angle=90, vjust=0.6)) +
+  scale_fill_manual("legend", values = c("#0087dc", "#d50000","#FDBB30", "#4d4d4d" ))
+  
+  
+#this shows the number of conservative male/female councillors  
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(reshape2)
+library(ggthemes)
+
+data <- read_csv("/Users/sarahnewey/Documents/City/Data J/CODING/Make up of local councils/conservative.csv")
+data %>% View()
+
+data <- melt(data, id.vars = 'PARTY')
+
+
+p <- ggplot(data, aes(x = PARTY, y = value, fill = variable)) +
+  geom_bar(stat = 'identity', weight =.3, position='dodge') +
+  theme_economist() +
+  labs(title="Conservative Party",
+       subtitle="April 2018") +
+  xlab("") +
+  ylab("Number of Councillors") 
+
+p+scale_fill_manual(values=c("M"="#09115F", "F"="#79B8F7"))
+
+#Labour
+
+#this shows the number of conservative male/female councillors  
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(reshape2)
+library(ggthemes)
+
+data <- read_csv("/Users/sarahnewey/Documents/City/Data J/CODING/Make up of local councils/labour.csv")
+data %>% View()
+
+data <- melt(data, id.vars = 'PARTY')
+
+
+p <- ggplot(data, aes(x = PARTY, y = value, fill = variable)) +
+  geom_bar(stat = 'identity', weight =.3, position='dodge') +
+  theme_economist() +
+  labs(title="Labour Party",
+       subtitle="April 2018") +
+  xlab("") +
+  ylab("Number of Councillors") 
+
+p+scale_fill_manual(values=c("M"="#770515", "F"="#E97979"), name = "Gender")
