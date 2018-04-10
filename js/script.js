@@ -1,4 +1,4 @@
-function message() {
+$function message() {
   var whichParty = document.getElementById("party");
   var party = whichParty.options[whichParty.selectedIndex].value;
   
@@ -85,9 +85,10 @@ Highcharts.chart('pie', {
 
 
 Highcharts.chart('container', {
-    colors: [''#dae4e9''],
+    colors: ['#990000'],
     chart: {
         type: 'column'
+        plotBackgroundColor: '#dae4e9',
         
     },
     title: {
