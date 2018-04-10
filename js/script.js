@@ -34,7 +34,7 @@ function message() {
 Highcharts.chart('pie', {
     colors: ['#990000', '#cecccc'],
     chart: {
-        plotBackgroundColor: '#dae4e9',
+        backgroundColor: '#dae4e9',
         plotBorderWidth: 0,
         plotShadow: false
     },
